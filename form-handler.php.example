@@ -1,0 +1,42 @@
+<?php
+
+require './vendor/autoload.php';
+use PHPMailer\PHPMailer\PHPMailer;
+$mail = new PHPMailer;
+
+//set variables based on what was POSTed from the HTML form
+$name = filter_var($_POST['name'], FILTER_SANITIZE_STRING); 
+$nominee-name = filter_var($_POST['nominee-name'], FILTER_SANITIZE_STRING); 
+$email_address = "info@antiochfc.org";
+
+$mail->isSMTP();
+
+//Enable SMTP debugging
+// 0 = off (for production use)
+// 1 = client messages
+// 2 = client and server messages
+$mail->SMTPDebug = 0;
+$mail->Host = 'smtp.gmail.com';
+$mail->Port = 587;
+$mail->SMTPSecure = 'tls';
+$mail->SMTPAuth = true;
+$mail->Username = "";
+$mail->Password = "";
+
+$mail->setFrom('sender email here', 'sender name here');
+
+//Set who the message is to be sent to
+$mail->addAddress($email_address, $name);
+
+//Set the message subject dynamically pulling in the user's name
+$mail->Subject = "Elder Nomination: $nominee-name";
+
+$body = "$name has nominated $nominee-name to be an elder.";
+$mail->msgHTML($body);
+
+if (!$mail->send()) {
+    echo "Mailer Error: " . $mail->ErrorInfo;
+} else {
+    header('Location: thank-you.html');
+}
+?>
