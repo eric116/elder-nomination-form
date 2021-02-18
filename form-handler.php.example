@@ -6,7 +6,7 @@ $mail = new PHPMailer;
 
 //set variables based on what was POSTed from the HTML form
 $name = filter_var($_POST['name'], FILTER_SANITIZE_STRING); 
-$nominee-name = filter_var($_POST['nominee-name'], FILTER_SANITIZE_STRING); 
+$nomineename = filter_var($_POST['nominee-name'], FILTER_SANITIZE_STRING); 
 $email_address = "info@antiochfc.org";
 
 $mail->isSMTP();
@@ -29,7 +29,7 @@ $mail->setFrom('sender email here', 'sender name here');
 $mail->addAddress($email_address, $name);
 
 //Set the message subject dynamically pulling in the user's name
-$mail->Subject = "Elder Nomination: $nominee-name";
+$mail->Subject = "Elder Nomination: $nomineename";
 
 $body = "$name has nominated $nominee-name to be an elder.";
 $mail->msgHTML($body);
