@@ -8,7 +8,7 @@ $mail = new PHPMailer;
 $name = filter_var($_POST['name'], FILTER_SANITIZE_STRING); 
 $nomineename = filter_var($_POST['nominee-name'], FILTER_SANITIZE_STRING); 
 $email_address = "info@antiochfc.org";
-
+$replyto = filter_var($_POST['reply-to'], FILTER_SANITIZE_EMAIL);
 $mail->isSMTP();
 
 //Enable SMTP debugging
@@ -33,6 +33,8 @@ $mail->Subject = "Elder Nomination: $nomineename";
 
 $body = "$name has nominated $nominee-name to be an elder.";
 $mail->msgHTML($body);
+
+$mail->AddReplyTo($replyto, $name);
 
 if (!$mail->send()) {
     echo "Mailer Error: " . $mail->ErrorInfo;
